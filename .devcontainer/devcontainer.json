@@ -1,0 +1,17 @@
+{
+  "name": "WordPress",
+  "service": "wordpress",
+  "shutdownAction": "stopCompose",
+  "workspaceFolder": "/var/www/html",
+  "dockerComposeFile": "docker-compose.yaml",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "eamodio.gitlens",
+        "xdebug.php-pack",
+        "xdebug.php-debug",
+        "matthiashunt.wordpress-syntax-highlighter"
+      ]
+    }
+  }
+}
