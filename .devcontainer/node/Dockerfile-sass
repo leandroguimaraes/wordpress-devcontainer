@@ -1,0 +1,11 @@
+# Dockerfile
+FROM node:alpine
+
+# Install sass globally
+RUN npm install -g sass
+
+# Set the working directory
+WORKDIR /app
+
+# Command to watch for changes
+CMD ["sass", "--watch", "style.scss:style.css", "--style", "compressed"]

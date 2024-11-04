@@ -1,0 +1,15 @@
+{
+  "name": "WordPress",
+
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "wp",
+  "workspaceFolder": "/var/www/html",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "eamodio.gitlens",
+        "wordpresstoolbox.wordpress-toolbox"
+      ]
+    }
+  }
+}

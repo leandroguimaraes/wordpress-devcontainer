@@ -1,0 +1,78 @@
+services:
+  wp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: wp
+    restart: always
+    ports:
+      - 80:80
+    environment:
+      WORDPRESS_WP_HOME: http://localhost
+      WORDPRESS_WP_SITEURL: http://localhost
+      WORDPRESS_DB_HOST: wp-db
+      WORDPRESS_DB_USER: db-user
+      WORDPRESS_DB_PASSWORD: db-password
+      WORDPRESS_DB_NAME: wp-db
+      WORDPRESS_DEBUG: true
+    volumes:
+      - ../.devcontainer:/var/www/html/.devcontainer
+      - ../.git:/var/www/html/.git
+      - ../.gitignore:/var/www/html/.gitignore
+      - ../license.md:/var/www/html/license.md
+      - ../README.md:/var/www/html/README.md
+      - ../wp-content/plugins:/var/www/html/wp-content/plugins
+      - ../wp-content/themes:/var/www/html/wp-content/themes
+    depends_on:
+      - wp-db
+
+  wp-db:
+    image: mysql:8.0
+    container_name: wp-db
+    restart: always
+    environment:
+      MYSQL_DATABASE: wp-db
+      MYSQL_USER: db-user
+      MYSQL_PASSWORD: db-password
+      MYSQL_RANDOM_ROOT_PASSWORD: "1"
+    volumes:
+      - wp-db-volume:/var/lib/mysql
+
+  # phpMyAdmin connects using your MySQL server credentials
+  wp-phpmyadmin:
+    image: phpmyadmin
+    container_name: wp-phpmyadmin
+    restart: always
+    ports:
+      - 81:80
+    environment:
+      - PMA_ARBITRARY=1
+      - UPLOAD_LIMIT=100000000
+    depends_on:
+      - wp-db
+
+  node-js:
+    build:
+      context: ./node
+      dockerfile: Dockerfile-js
+    container_name: wp-node-js
+    restart: always
+    volumes:
+      - ../wp-content/themes/my-theme:/app
+    depends_on:
+      - wp
+
+  node-sass:
+    build:
+      context: ./node
+      dockerfile: Dockerfile-sass
+    container_name: wp-node-sass
+    restart: always
+    volumes:
+      - ../wp-content/themes/my-theme:/app
+    depends_on:
+      - wp
+
+volumes:
+  ebrit-wp:
+  wp-db-volume:

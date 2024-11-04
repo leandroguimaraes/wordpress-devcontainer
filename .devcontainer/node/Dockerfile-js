@@ -1,0 +1,11 @@
+# Dockerfile
+FROM node:alpine
+
+# Install terser globally
+RUN npm install -g nodemon terser
+
+# Set the working directory
+WORKDIR /app
+
+# Command to watch for changes
+CMD ["nodemon", "--watch", "lib.js", "--exec", "terser lib.js -o lib.min.js --compress --mangle"]
