@@ -74,5 +74,4 @@ services:
       - wp
 
 volumes:
-  ebrit-wp:
   wp-db-volume:
